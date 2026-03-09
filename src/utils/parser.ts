@@ -84,12 +84,10 @@ export const parseQuestions = (text: string): Question[] => {
       // But standard format is A、 or A. or A．
       // Also handle malformed options like "D特种..." (missing dot)
       const regex = /^\s*([A-F])(?:[.、．]|\s+|(?=[\u4e00-\u9fa5]))\s*/;
-      const inlineRegex = /\s+([A-F])[.、．]\s*/g;
-      
       let matches: {label: string, index: number, length: number}[] = [];
       
       const startMatch = line.match(regex);
-      if (startMatch) {
+      if (startMatch && startMatch.index !== undefined) {
           matches.push({
               label: startMatch[1],
               index: 0,
@@ -116,7 +114,7 @@ export const parseQuestions = (text: string): Question[] => {
           matches.push({
               label: match[1],
               index: matchStartIndex,
-              length: match[0].length - (isSpaceStart ? 1 : 0)
+              length: match[0].length
           });
       }
       

@@ -8,8 +8,8 @@ import path from 'node:path'
 const dataPersistencePlugin = () => {
   return {
     name: 'data-persistence',
-    configureServer(server) {
-      server.middlewares.use('/api/data', (req, res, next) => {
+    configureServer(server: any) {
+      server.middlewares.use('/api/data', (req: any, res: any, next: any) => {
         const filePath = path.resolve(__dirname, 'userData.json')
         
         if (req.method === 'GET') {
@@ -29,7 +29,7 @@ const dataPersistencePlugin = () => {
           }
         } else if (req.method === 'POST') {
           let body = ''
-          req.on('data', chunk => {
+          req.on('data', (chunk: any) => {
             body += chunk.toString()
           })
           req.on('end', () => {
