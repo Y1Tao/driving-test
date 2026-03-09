@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
 const routes = [
@@ -25,7 +25,9 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  // 使用 createWebHashHistory 以兼容无需配置服务器的静态部署（如 Gitee Pages）
+  // 相比 createWebHistory，hash 模式在 URL 中会带有 # 号，但部署最简单，不需要配置 rewrite
+  history: createWebHashHistory(),
   routes
 })
 

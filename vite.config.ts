@@ -55,6 +55,9 @@ const dataPersistencePlugin = () => {
 
 // https://vite.dev/config/
 export default defineConfig({
+  // 如果部署到 Gitee Pages/GitHub Pages，需要设置 base 路径
+  // 例如：base: '/driving-test/'
+  base: './', 
   plugins: [
     vue(),
     tailwindcss(),
