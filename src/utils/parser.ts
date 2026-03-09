@@ -39,7 +39,7 @@ export const parseQuestions = (text: string): Question[] => {
     if (line.startsWith('题干：') || /^\d+[.、．]\s*(?:题干：)?/.test(line)) {
       if (currentQuestion) {
         // If judgment question has no options, add default options
-        if (currentQuestion.type === 'judgment' && (!currentQuestion.options || currentQuestion.options.length === 0)) {
+        if (currentQuestion.type === 'judgment' && (!currentQuestion.options || currentQuestion.options?.length === 0)) {
            currentQuestion.options = ['正确', '错误'];
         }
         questions.push(currentQuestion as Question);
@@ -63,7 +63,7 @@ export const parseQuestions = (text: string): Question[] => {
       // Detect answer line
       // Support both full-width '：' and half-width ':'
       const answerMatch = line.match(/^(?:答案|正确答案)[:：]\s*(.*)$/);
-      if (answerMatch) {
+      if (answerMatch && answerMatch[1]) {
         let answerStr = answerMatch[1].trim();
         
         // Remove trailing punctuation
@@ -87,7 +87,7 @@ export const parseQuestions = (text: string): Question[] => {
       let matches: {label: string, index: number, length: number}[] = [];
       
       const startMatch = line.match(regex);
-      if (startMatch && startMatch.index !== undefined) {
+      if (startMatch && startMatch.index !== undefined && startMatch[1]) {
           matches.push({
               label: startMatch[1],
               index: 0,
@@ -111,6 +111,8 @@ export const parseQuestions = (text: string): Question[] => {
           // Avoid duplicates if we handled startMatch (which handles index 0)
           if (matchStartIndex === 0 && startMatch) continue;
           
+          if (!match[1]) continue;
+          
           matches.push({
               label: match[1],
               index: matchStartIndex,
@@ -124,6 +126,7 @@ export const parseQuestions = (text: string): Question[] => {
       if (matches.length > 0) {
         for (let j = 0; j < matches.length; j++) {
             const match = matches[j];
+            if (!match) continue;
             const optionLabel = match.label; 
             const startIndex = match.index;
             const nextMatch = matches[j+1];
