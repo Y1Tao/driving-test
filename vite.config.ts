@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import fs from 'node:fs'
 import path from 'node:path'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // Custom plugin to handle data persistence
 const dataPersistencePlugin = () => {
   return {
@@ -58,9 +60,5 @@ export default defineConfig({
   // 如果部署到 Gitee Pages/GitHub Pages，需要设置 base 路径
   // 例如：base: '/driving-test/'
   base: './', 
-  plugins: [
-    vue(),
-    tailwindcss(),
-    dataPersistencePlugin()
-  ],
+  plugins: [vue(), tailwindcss(), dataPersistencePlugin(), cloudflare()],
 })
