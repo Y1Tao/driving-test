@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 
 # Local data
-userData.json
 .trae/
